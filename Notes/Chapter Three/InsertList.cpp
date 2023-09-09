@@ -54,17 +54,43 @@ void InsertBack(struct Node<int>* &first, int x)
     }
 }
 
-void Delete(struct Node<int>* &first, int index, int x)
+
+int Delete(struct Node<int>* &p, int index, int x)
 {
-    Node<int>* temp = new Node<int>; 
+    Node<int>* q = nullptr; 
+
+    if(index ==0)
+    {
+        Node<int>* tmp = p; 
+        q = p; 
+        x = tmp->data; 
+        p = p->next; // Move to next
+        delete tmp; 
+        return x; 
+    }
+    else 
+    {
+        Node<int>* current = p; 
+        for(int i = 0; i < index - 1 && current !=nullptr; ++i)
+        {
+            q = current; 
+            current = current->next; 
+        }
+        q->next = current->next; 
+        x = current->data; 
+        delete current; 
+        return x; 
+    }
+    
 }
 
 void display(struct Node<int>* p)
 {
-    while(p!=nullptr)
+    Node<int>* current = p; 
+    while(current!=nullptr)
     {
-        std::cout << p->data << " "; 
-        p = p->next; 
+        std::cout << current->data << " "; 
+        current = current->next; 
     }
     std::cout << std::endl; 
 }
@@ -80,6 +106,8 @@ int main(int argc, char const *argv[])
     InsertPos(first, 1, 20); 
     InsertPos(first, 3, 40);
     InsertBack(first, 200);
+    Delete(first, 0, 10); 
+    Delete(first, 0, 20);
     display(first); 
 
     return 0;
