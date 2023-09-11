@@ -28,12 +28,12 @@ void InsertPos(struct Node<int>* &first, int index, int x)
     else 
     {
         Node<int>* current = first; // set a temp node
-        for(int i = 0; i < index -1 && current->next != nullptr; ++i)
+        for(int i = 0; i < index -1 && current->next != nullptr; ++i) // Move to the position
         {
-            current = current->next; 
+            current = current->next; // loop to that position
         }
-        temp->next = current->next; 
-        current->next = temp; 
+        temp->next = current->next; // connect the temp node to the current node
+        current->next = temp; // set the current node equal to the temp 
     }
     
 }
@@ -59,7 +59,7 @@ int Delete(struct Node<int>* &p, int index, int x)
 {
     Node<int>* q = nullptr; 
 
-    if(index ==0)
+    if(index == 0)
     {
         Node<int>* tmp = p; 
         q = p; 
