@@ -41,8 +41,6 @@ std::string Remove(struct Node<std::string>* &first, std::string element)
 {
     Node<std::string>* previous = nullptr; 
     Node<std::string>* current = first; 
-    
-    
 
     while(current != nullptr)
     {
@@ -50,7 +48,7 @@ std::string Remove(struct Node<std::string>* &first, std::string element)
         {
             break;
         }
-        else 
+        else // to advanced if not found
         {
             previous = current; 
             current = current->next; 
@@ -61,6 +59,13 @@ std::string Remove(struct Node<std::string>* &first, std::string element)
         previous->next = current->next; 
         element = current->data; 
         delete current; 
+    }
+    else if(previous == nullptr)
+    {
+        current = first; 
+        first = first->next; 
+        element = previous->data; 
+        delete current;
     }
     return element; 
 }
@@ -89,3 +94,6 @@ int main(int argc, char const *argv[])
     display(head); 
     return 0;
 }
+
+
+

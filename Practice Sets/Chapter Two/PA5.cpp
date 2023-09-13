@@ -82,6 +82,6 @@ int main()
     print();
     std::cout << std::endl; 
     std::cout << "Recursive Print "; 
-     
+    recursivePrint(); 
     return 0;
 }
