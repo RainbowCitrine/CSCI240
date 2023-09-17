@@ -14,8 +14,8 @@ class Stack
 private: 
     Node<int> *top = nullptr; 
 public: 
-    Stack(); 
-    void push(T x); 
+    Stack() {top == nullptr;}
+    void push(T x);
     T pop(); 
     bool isEmpty();
     void Display(); 
