@@ -1,6 +1,4 @@
 #include <iostream> 
-#include <ctime> 
-#include <stdlib.h>
 
 template <typename T> 
 struct Node
@@ -59,26 +57,11 @@ public:
 
 int main(int argc, char const *argv[])
 {
-    std::srand(std::time(0)); 
     LinkedQueue<int> lq; 
-   
-    for(int i = 1; i <=5; ++i)
-    {
-        int unit = std::rand() % 10 + 1; 
-        lq.enqueue(unit); 
-        std::cout << "Enqueue Job " << i << " with " << unit << " units" << std::endl; 
-    }
-   
-    int cy = 1; 
-    while(!lq.isEmpty())
-    {
-        std::cout << cy << " Processing job " << lq.infront() << std::endl; 
-        int rem = lq.infront() - 1; 
-        lq.dequeue(); 
-
-        if(rem > 0) lq.enqueue(rem); 
-        else std::cout << "Done with job " << cy << std::endl; 
-        cy++;
-    }
+    lq.enqueue(2); 
+    lq.enqueue(5); 
+    lq.display(); 
+    std::cout << lq.infront() << std::endl; 
+    std::cout << lq.size() << std::endl;
     return 0;
 }
