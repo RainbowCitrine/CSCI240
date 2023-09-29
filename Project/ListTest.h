@@ -26,6 +26,9 @@ void testSinglyLinkedList() {
     // Test Remove and display
     list.Remove("Class None");
     list.Display(); // Expected output: Class One Class Five Class Two
+
+    list.Remove("Class Five");
+    list.Display(); // Expected output: Class One Class Five Class Two
 }
 
 #endif 

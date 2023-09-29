@@ -12,13 +12,12 @@ class SinglyLinkedList : public NodeList<T>
 public: 
     SinglyLinkedList()
     {
-        head = nullptr;
+        head = new Node<T>;
+        head->next = nullptr; 
     }
     void create(T data)
     {
-        head = new Node<T>; 
         head->data = data; 
-        head->next = nullptr;
     }
     void insertFront(T data)
     {
@@ -52,7 +51,7 @@ public:
         Node<T>* current = head; 
         Node<T>* tmp = new Node<T>; 
         tmp->data = data; 
-
+        
         for(int i = 0; i < index - 1 && current->next != nullptr; ++i)
         {
             current = current->next; 
@@ -60,40 +59,37 @@ public:
         tmp->next = current->next; 
         current->next = tmp; 
     }
-
     T Remove(T data)
     {
-        if(isEmpty()) throw std::out_of_range("List is Empty cannot remove!"); 
-        Node<T>* previous = nullptr; 
         Node<T>* current = head; 
-      
+        Node<T>* tmp = nullptr; 
+        T x = T(); 
+
         while(current != nullptr)
         {
             if(current->data == data)
-            {
                 break; 
-            }
             else 
             {
-                previous = current; 
+                tmp = current; 
                 current = current->next; 
             }
         }
         if(current != nullptr)
         {
-            if(previous != nullptr)
-            {
-                previous->next = current->next; 
-            }
-            else 
-            {
-                head = current->next; 
-            } 
-            data = current->data; 
-            delete current; 
-            return data; 
+           if(tmp != nullptr)
+           {
+                tmp->next = current->next; 
+           }
+           else 
+           {
+                head = head->next; 
+           }
         }
-    }   
+        x = current->data; 
+        delete current; 
+        return x; 
+    }
 
     bool isEmpty() const 
     {
