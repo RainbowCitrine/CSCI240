@@ -36,7 +36,106 @@ public:
     typedef std::list<Position> PositionList;
 
 public:
+    /*
+        step 1 create constructor 
+        step 2 return size 
+        step 3 check empty 
+        step 4 add your root 
+        step 5 expand your binary tree by expanding internal nodes 
+        step 6 do the three traversals: preorder, postorder, inorder    
+
+    */
     BinaryTree() : _root(nullptr), n(0) {}
+    int size() {return n;}
+    bool isEmpty() {return size() == 0;}
+    void addRoot() {_root = new Node; n = 1;}
+    void expandExternal(const Position& p)
+    {
+        Node* v = p.v;
+        v->left = new Node; 
+        v->right = new Node; 
+        v->left->parent = v; 
+        v->right->parent = v; 
+        n += 2; 
+    }
+    void postorder(Node* v, PositionList& pl)
+    {
+        if(v != nullptr)
+        {
+            postorder(v->left, pl); 
+            postorder(v->right, pl); 
+            pl.push_back(Position(v)); // starting from the first node
+        }
+    }
+    void preorder(Node* v, PositionList& pl)
+    {
+        pl.push_back(Position(v)); 
+        if(v->left != nullptr)
+            preorder(v->left, pl); 
+        if(v->right != nullptr)
+            preorder(v->right, pl); 
+    }
+    void inorder(Node* v, PositionList& pl)
+    {
+        if(v != nullptr)
+        {
+            inorder(v->left, pl); 
+            pl.push_back(Position(v)); 
+            inorder(v->right, pl); 
+        }
+    }
+    Position removeAboveExternal(const Position& p)
+    {
+        Node* w = p.v; 
+        Node* v = w->parent; 
+        Node* sibling = (w == v->left ? v->right : v->left); 
+
+        if(_root == v)
+        {
+            _root = sibling; 
+            sibling->parent = nullptr; 
+        }
+        else 
+        {
+            Node* grandParent = v->parent; 
+            if(grandParent->left == v)
+                grandParent->left = sibling; 
+            else 
+                grandParent->right = sibling; 
+            sibling->parent = grandParent; 
+        }
+        delete w; delete v; 
+        n -= 2; 
+        return Position(sibling); 
+    }
+    Position insertLeft(const Position& p, const T& data)
+    {
+        Node* par = p.getNode(); 
+        Node* newNode = new Node; 
+        newNode->data = data; 
+        newNode->parent = par; 
+
+        if(newNode->left == nullptr)
+        {
+            par->left = newNode;  
+            n++; 
+        }
+        return Position(newNode); 
+    }
+    Position insertRight(const Position& p, const T& data)
+    {
+        Node* par = p.getNode(); 
+        Node* newNode = new Node; 
+        newNode->data = data; 
+        newNode->parent = par; 
+
+        if(newNode->right == nullptr)
+        {
+            par->right = newNode; 
+            n++; 
+        }
+        return Position(newNode); 
+    }
     Position root()
     {
         return Position(_root);
@@ -65,102 +164,6 @@ public:
         inorder(_root, pl); 
         return PositionList(pl); 
     }
-    int size() { return n; }
-    bool isEmpty() { return size() == 0; }
-    void addRoot()
-    {
-        _root = new Node;
-        n = 1;
-    } // add new root by creating a new node and adding 1 to the size
-    void expandExternal(const Position &p)
-    {
-        Node *v = p.v; // grab from the position of where the node is
-        v->left = new Node;
-        v->left->parent = v; // point the left to the parent node
-        v->right = new Node;
-        v->right->parent = v; // point the right to the parent node
-        n += 2;               // add two
-    }
-    void preorder(Node *v, PositionList &pl)
-    {
-        pl.push_back(Position(v));
-        if (v->left != nullptr)
-            preorder(v->left, pl);
-        if (v->right != nullptr)
-            preorder(v->right, pl);
-    }
-    void postorder(Node *v, PositionList &pl)
-    {
-        if (v != nullptr)
-        {
-            postorder(v->left, pl);
-            postorder(v->right, pl);
-            pl.push_back(Position(v));
-        }
-    }
-    void inorder(Node* v, PositionList& pl)
-    {
-        if(v != nullptr)
-        {
-            inorder(v->left, pl);
-            pl.push_back(Position(v)); 
-            inorder(v->right, pl); 
-        }
-    }
-    Position removeAboveExternal(const Position &p)
-    {
-        Node *w = p.v;
-        Node *v = w->parent;
-        Node *sibling = (w == v->left ? v->right : v->left);
-        if (v == _root)
-        {
-            _root = sibling;
-            sibling->parent = nullptr;
-        }
-        else
-        {
-            Node *GrandParent = v->parent;
-            if (v == GrandParent->left)
-                GrandParent->left = sibling;
-            else
-                GrandParent->right = sibling;
-            sibling->parent = GrandParent;
-        }
-        delete w;
-        delete v;
-        n -= 2;
-        return Position(sibling);
-    }
-    Position insertLeft(const Position &p, const T &value)
-    {
-        Node *par = p.getNode();
-        Node *newNode = new Node;
-        newNode->data = value;
-        newNode->parent = par; // setting the parent
-
-        if (par->left == nullptr)
-        {
-            par->left = newNode; // create a new left pointer
-            n++;                 // increase the size
-        }
-        return Position(newNode); // return the position
-    }
-
-    Position insertRight(const Position &p, const T &value)
-    {
-        Node *par = p.getNode();
-        Node *newNode = new Node;
-        newNode->data = value;
-        newNode->parent = par;
-
-        if (par->right == nullptr)
-        {
-            par->right = newNode;
-            n++;
-        }
-        return Position(newNode);
-    }
-
 private:
     Node *_root;
     int n;
