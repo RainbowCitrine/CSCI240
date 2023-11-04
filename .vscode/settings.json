@@ -67,6 +67,12 @@
         "deque": "cpp",
         "queue": "cpp",
         "stack": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "fstream": "cpp",
+        "functional": "cpp",
+        "unordered_map": "cpp",
+        "xhash": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp"
     }
 }
